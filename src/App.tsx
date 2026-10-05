@@ -1,10 +1,30 @@
+import { useState } from "react"
 import Footer from "./components/Footer"
 import Guitar from "./components/Guitar"
 import Header from "./components/Header"
-import { db } from "./data/guitars"
+import { db, type Guitarra } from "./data/guitars"
 
 function App(){
- console.log(db)
+
+    const [carrito, setCarrito] = useState<Guitarra[]>([])
+
+    function addGuitar(guitar: Guitarra){
+        
+        const newCart = [...carrito]
+        const idInCart = carrito.findIndex(g => g.id === guitar.id)
+        if(idInCart === -1){
+           
+       
+        newCart.push({
+            ...guitar
+        })
+        }else{
+           
+        }
+        setCarrito(newCart)
+    }
+ 
+
   return ( 
     <>
     <Header />
@@ -13,7 +33,11 @@ function App(){
 
         <div className="row mt-5">
             {
-                db.map((g) => (<Guitar key={g.id} guitar={g} />))
+                db.map((g) => 
+                    (<Guitar 
+                    key={g.id}
+                    addGuitar={addGuitar} 
+                    guitar={g} />))
 
             }
             

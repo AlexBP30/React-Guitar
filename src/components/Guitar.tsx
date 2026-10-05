@@ -1,6 +1,13 @@
 import { Guitarra } from "../data/guitars";
 
-export default function Guitar({ guitar }: { guitar: Guitarra }) {
+interface GuitarraProps {
+    guitar: Guitarra
+    addGuitar: (guitar: Guitarra) => void;
+}
+
+export default function Guitar({ guitar, addGuitar }: GuitarraProps) {
+
+   
 
     return (
         <>
@@ -14,6 +21,7 @@ export default function Guitar({ guitar }: { guitar: Guitarra }) {
                     <p>{guitar.descripcion}</p>
                     <p className="fw-black text-primary fs-3">{guitar.precio}</p>
                     <button 
+                    onClick={() => addGuitar(guitar)}
                         type="button"
                         className="btn btn-dark w-100 "
                     >Agregar al Carrito</button>
