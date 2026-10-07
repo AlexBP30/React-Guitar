@@ -4,6 +4,7 @@ export type Guitarra = {
     imagen: string
     descripcion: string
     precio: number
+    cantidad?: number 
 }
 
 export const db: Guitarra []  = [

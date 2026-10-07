@@ -16,18 +16,49 @@ function App(){
            
        
         newCart.push({
-            ...guitar
+            ...guitar,
+            cantidad: 1
         })
         }else{
-           
+           newCart[idInCart].cantidad!++
         }
         setCarrito(newCart)
+    }
+
+    function addOne(id: number){
+        const newCart = [...carrito]
+        const idInCart = newCart.findIndex(g => g.id === id)
+        newCart[idInCart].cantidad!++
+        setCarrito(newCart)
+    }
+    function lessOne(id: number){
+        const newCart = [...carrito]
+        const idInCart = newCart.findIndex(g => g.id === id)
+        if(newCart[idInCart].cantidad! <= 1){
+            removeGuitar(id)
+            return
+        }
+        newCart[idInCart].cantidad!--
+        setCarrito(newCart)
+    }
+    function removeGuitar(id: number){
+        const newCart = carrito.filter(g => g.id !== id)
+        setCarrito(newCart)
+    }
+    function emptyCart(){
+        setCarrito([])
     }
  
 
   return ( 
     <>
-    <Header />
+    <Header 
+    carrito={carrito}
+    emptyCart={emptyCart}
+    removeGuitar={removeGuitar}
+    lessOne={lessOne}
+    addOne={addOne}
+    />
     <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
 

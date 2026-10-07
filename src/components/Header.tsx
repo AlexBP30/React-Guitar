@@ -1,4 +1,14 @@
-export default function Header(){
+import type { Guitarra } from "../data/guitars"
+
+interface HeaderProps {
+    carrito: Guitarra[]
+    emptyCart: () => void
+    removeGuitar: (id: number) => void
+    lessOne: (id: number) => void
+    addOne: (id: number) => void
+}
+
+export default function Header({ carrito, emptyCart, removeGuitar, lessOne, addOne }: HeaderProps){
     return (
         <>
         <header className="py-5 header">
@@ -6,7 +16,7 @@ export default function Header(){
             <div className="row justify-content-center justify-content-md-between">
                 <div className="col-8 col-md-3">
                     <a href="index.html">
-                        <img className="img-fluid" src="./public/img/logo.svg" alt="imagen logo"/>
+                        <img className="img-fluid" src="/img/logo.svg" alt="imagen logo"/>
                     </a>
                 </div>
                 <nav className="col-md-6 a mt-5 d-flex align-items-start justify-content-end">
@@ -16,8 +26,12 @@ export default function Header(){
                         <img className="img-fluid" src="./public/img/carrito.png" alt="imagen carrito" />
 
                         <div id="carrito" className="bg-white p-3">
-                            <p className="text-center">El carrito esta vacio</p>
-                            <table className="w-100 table">
+                            {
+                                carrito.length === 0? (
+                                  <p className="text-center">El carrito esta vacio</p>  
+                                ) : (
+                                    <>
+                                    <table className="w-100 table">
                                 <thead>
                                     <tr>
                                         <th>Imagen</th>
@@ -28,23 +42,26 @@ export default function Header(){
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    {carrito.map(g => (
+                                            <tr key={g.id}>
                                         <td>
-                                            <img className="img-fluid" src="./public/img/guitarra_02.jpg" alt="imagen guitarra"/>
+                                            <img className="img-fluid" src={"/img/" + g.imagen + ".jpg"} alt={g.nombre} />
                                         </td>
-                                        <td>SRV</td>
+                                        <td>{g.nombre}</td>
                                         <td className="fw-bold">
-                                                $299
+                                            ${g.precio}
                                         </td>
-                                        <td className="flex align-items-start gap-4">
+                                        <td className="d-flex align-items-start gap-4">
                                             <button
+                                            onClick={() => lessOne(g.id)}
                                                 type="button"
                                                 className="btn btn-dark"
                                             >
                                                 -
                                             </button>
-                                                1
+                                            <span className="fw-bold">{g.cantidad}</span>
                                             <button
+                                            onClick={() => addOne(g.id)}
                                                 type="button"
                                                 className="btn btn-dark"
                                             >
@@ -53,6 +70,7 @@ export default function Header(){
                                         </td>
                                         <td>
                                             <button
+                                                onClick={() => removeGuitar(g.id)}
                                                 className="btn btn-danger"
                                                 type="button"
                                             >
@@ -60,11 +78,19 @@ export default function Header(){
                                             </button>
                                         </td>
                                     </tr>
+
+                                        ))}
+                                    
                                 </tbody>
                             </table>
 
-                            <p className="text-end">Total pagar: <span className="fw-bold">$899</span></p>
-                            <button className="btn btn-dark w-100 mt-3 p-2">Vaciar Carrito</button>
+                            <p className="text-end">Total pagar: <span className="fw-bold">${carrito.reduce((total, g) => total + (g.precio * (g.cantidad ?? 0)), 0).toFixed(2)}</span></p>
+                            <button className="btn btn-dark w-100 mt-3 p-2" onClick={emptyCart}>Vaciar Carrito</button>
+                                    </>
+                                )
+                            }
+                            
+                            
                         </div>
                     </div>
                 </nav>
