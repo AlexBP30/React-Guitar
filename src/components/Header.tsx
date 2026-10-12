@@ -1,4 +1,4 @@
-import type { Guitarra } from "../data/guitars"
+import { db, type Guitarra } from "../data/guitars"
 
 interface HeaderProps {
     carrito: Guitarra[]
@@ -6,9 +6,12 @@ interface HeaderProps {
     removeGuitar: (id: number) => void
     lessOne: (id: number) => void
     addOne: (id: number) => void
+    addGuitar: (guitar: Guitarra) => void
 }
 
-export default function Header({ carrito, emptyCart, removeGuitar, lessOne, addOne }: HeaderProps){
+export default function Header({ carrito, emptyCart, removeGuitar, lessOne, addOne, addGuitar }: HeaderProps){
+    const guitarraHeader = db.find(g => g.id === 4)!
+
     return (
         <>
         <header className="py-5 header">
@@ -100,10 +103,11 @@ export default function Header({ carrito, emptyCart, removeGuitar, lessOne, addO
                 <div className="col-md-6 text-center text-md-start pt-5">
                     <h1 className="display-2 fw-bold">Modelo VAI</h1>
                     <p className="mt-5 fs-5 text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, possimus quibusdam dolor nemo velit quo, fuga omnis, iure molestias optio tempore sint at ipsa dolorum odio exercitationem eos inventore odit.</p>
-                    <p className="text-primary fs-1 fw-black">$399</p>
+                    <p className="text-primary fs-1 fw-black">$299</p>
                     <button 
                         type="button"
                         className="btn fs-4 bg-primary text-white py-2 px-5"
+                        onClick={() => addGuitar(guitarraHeader)}
                     >Agregar al Carrito</button>
                 </div>
             </div>

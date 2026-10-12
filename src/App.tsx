@@ -58,6 +58,7 @@ function App(){
     removeGuitar={removeGuitar}
     lessOne={lessOne}
     addOne={addOne}
+    addGuitar={addGuitar}
     />
     <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
