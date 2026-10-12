@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Footer from "./components/Footer"
 import Guitar from "./components/Guitar"
 import Header from "./components/Header"
@@ -6,40 +6,32 @@ import { db, type Guitarra } from "./data/guitars"
 
 function App(){
 
-    const [carrito, setCarrito] = useState<Guitarra[]>([])
+    function initialCart(): Guitarra[] {
+        const saved = localStorage.getItem('carrito')
+        return saved ? JSON.parse(saved) : []
+    }
+
+    const [carrito, setCarrito] = useState<Guitarra[]>(initialCart)
 
     function addGuitar(guitar: Guitarra){
-        
-        const newCart = [...carrito]
-        const idInCart = carrito.findIndex(g => g.id === guitar.id)
-        if(idInCart === -1){
-           
-       
-        newCart.push({
-            ...guitar,
-            cantidad: 1
-        })
+        const inCart = carrito.some(g => g.id === guitar.id)
+        if(inCart){
+            addOne(guitar.id)
         }else{
-           newCart[idInCart].cantidad!++
+            setCarrito([...carrito, { ...guitar, cantidad: 1 }])
         }
-        setCarrito(newCart)
     }
 
     function addOne(id: number){
-        const newCart = [...carrito]
-        const idInCart = newCart.findIndex(g => g.id === id)
-        newCart[idInCart].cantidad!++
-        setCarrito(newCart)
+        setCarrito(carrito.map(g => g.id === id ? { ...g, cantidad: g.cantidad! + 1 } : g))
     }
     function lessOne(id: number){
-        const newCart = [...carrito]
-        const idInCart = newCart.findIndex(g => g.id === id)
-        if(newCart[idInCart].cantidad! <= 1){
+        const guitar = carrito.find(g => g.id === id)
+        if(guitar && guitar.cantidad! <= 1){
             removeGuitar(id)
             return
         }
-        newCart[idInCart].cantidad!--
-        setCarrito(newCart)
+        setCarrito(carrito.map(g => g.id === id ? { ...g, cantidad: g.cantidad! - 1 } : g))
     }
     function removeGuitar(id: number){
         const newCart = carrito.filter(g => g.id !== id)
@@ -49,6 +41,9 @@ function App(){
         setCarrito([])
     }
  
+    useEffect(() => {
+        localStorage.setItem('carrito', JSON.stringify(carrito))
+    }, [carrito])
 
   return ( 
     <>

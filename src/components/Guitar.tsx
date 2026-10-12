@@ -1,4 +1,4 @@
-import { Guitarra } from "../data/guitars";
+import type { Guitarra } from "../data/guitars";
 
 interface GuitarraProps {
     guitar: Guitarra
@@ -19,7 +19,7 @@ export default function Guitar({ guitar, addGuitar }: GuitarraProps) {
                 <div className="col-8">
                     <h3 className="text-black fs-4 fw-bold text-uppercase">{guitar.nombre}</h3>
                     <p>{guitar.descripcion}</p>
-                    <p className="fw-black text-primary fs-3">{guitar.precio}</p>
+                    <p className="fw-black text-primary fs-3">${guitar.precio}</p>
                     <button 
                     onClick={() => addGuitar(guitar)}
                         type="button"

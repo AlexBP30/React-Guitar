@@ -18,7 +18,7 @@ export default function Header({ carrito, emptyCart, removeGuitar, lessOne, addO
         <div className="container-xl">
             <div className="row justify-content-center justify-content-md-between">
                 <div className="col-8 col-md-3">
-                    <a href="index.html">
+                    <a href="/">
                         <img className="img-fluid" src="/img/logo.svg" alt="imagen logo"/>
                     </a>
                 </div>
@@ -26,7 +26,7 @@ export default function Header({ carrito, emptyCart, removeGuitar, lessOne, addO
                     <div 
                         className="carrito"
                     >
-                        <img className="img-fluid" src="./public/img/carrito.png" alt="imagen carrito" />
+                        <img className="img-fluid" src="/img/carrito.png" alt="imagen carrito" />
 
                         <div id="carrito" className="bg-white p-3">
                             {
@@ -113,7 +113,7 @@ export default function Header({ carrito, emptyCart, removeGuitar, lessOne, addO
             </div>
         </div>
 
-        <img className="header-guitarra" src="./public/img/header_guitarra.png" alt="imagen header"/>
+        <img className="header-guitarra" src="/img/header_guitarra.png" alt="imagen header"/>
     </header>
         </>
     )
